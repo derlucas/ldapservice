@@ -5,25 +5,31 @@
        xmlns:task="http://www.springframework.org/schema/task"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd">
 	
-	<!-- Root Context: defines shared resources visible to all other web components -->
 
-    <context:component-scan base-package="de.ctdo.bunti">
-        <context:exclude-filter type="regex" expression="de\.ctdo\.bunti\.web*"/>
+    <context:component-scan base-package="de.ctdo.ldapservice">
+        <context:exclude-filter type="regex" expression="de\.ctdo\.ldapservice\.web*"/>
     </context:component-scan>
 
-
-    <task:annotation-driven scheduler="myScheduler"/>
-    <task:scheduler id="myScheduler" pool-size="3"/>
-
-
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="location" value="classpath:bunti.properties"/>
+        <property name="location" value="classpath:ldapservice.properties"/>
     </bean>
 
-    <bean class="de.ctdo.bunti.dmx.DMXMixerImpl">
-        <property name="artNetDeviceAddress" value="${artnet.deviceAddress}"/>
+    <bean id="contextSource" class="org.springframework.ldap.core.support.LdapContextSource">
+        <property name="url" value="${ldap.url}" />
+        <property name="base" value="${ldap.base}" />
+        <!--<property name="userDn" value="${ldap.userdn}" />-->
+        <!--<property name="password" value="${ldap.secret}" />-->
     </bean>
 
-    <import resource="hibernate-beans.xml"/>
+    <bean id="ldapTemplate" class="org.springframework.ldap.core.LdapTemplate">
+        <constructor-arg ref="contextSource" />
+    </bean>
+
+    <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
+
+    <!--<bean id="personDao" class="de.ctdo.ldapservice.dao.PersonDAOImpl">-->
+        <!--<property name="ldapTemplate" ref="ldapTemplate" />-->
+    <!--</bean>-->
+
 		
 </beans>
