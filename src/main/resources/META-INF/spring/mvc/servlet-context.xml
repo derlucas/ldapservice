@@ -7,7 +7,7 @@
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd ">
 
-    <context:component-scan base-package="de.ctdo.bunti.web*"/>
+    <context:component-scan base-package="de.ctdo.ldapservice.web*"/>
 
     <!-- Configures the @Controller programming model -->
     <mvc:annotation-driven/>
@@ -23,8 +23,4 @@
         <property name="suffix" value=".jsp" />
     </bean>
 
-
-    <!--<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />-->
-    <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />
-           
 </beans>
