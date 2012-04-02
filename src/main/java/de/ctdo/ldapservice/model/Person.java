@@ -19,8 +19,8 @@ public class Person {
     @Past
     private DateTime birthDate;
     
-    private int groupId;
-    private int userId;
+    private String groupId;
+    private String userId;
     private String homeDirectory;
     private String userName;
 
@@ -70,19 +70,19 @@ public class Person {
         this.birthDate = birthDate;
     }
 
-    public int getGroupId() {
+    public String getGroupId() {
         return groupId;
     }
 
-    public void setGroupId(int groupId) {
+    public void setGroupId(String groupId) {
         this.groupId = groupId;
     }
 
-    public int getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 

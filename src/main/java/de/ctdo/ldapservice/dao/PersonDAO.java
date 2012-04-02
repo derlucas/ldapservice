@@ -8,11 +8,13 @@ import java.util.List;
 
 public interface PersonDAO {
 
-    List getAllNames();
-    List<Person> getAll();
-
-    void create(Person p);
     int getNextFreeGroupId();
     int getNextFreeUserId();
+    void create(Person person);
+    void update(Person person);
+    void delete(Person person);
+    Person findByPrimaryKey(String firstName, String lastName);
+    List findByName(String name);
+    List findAll();
 
 }
