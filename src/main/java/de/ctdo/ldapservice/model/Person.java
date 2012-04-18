@@ -3,6 +3,7 @@ package de.ctdo.ldapservice.model;
 
 import org.joda.time.DateTime;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
@@ -16,15 +17,37 @@ public class Person {
     private String emailAddress;
     @NotNull
     private String gender;
-    @Past
-    private DateTime birthDate;
+//    @Past
+//    private DateTime birthDate;
+
+    @Min(value = 1000)
+    @NotNull
+    private int groupId;
+
+    @NotNull
+    private String uid;
+
+    @Min(value = 1000)
+    @NotNull
+    private int uidNumber;
     
-    private String groupId;
-    private String userId;
-    private String homeDirectory;
-    private String userName;
+    private String passwordSSHA;
 
+    public String getPasswordSSHA() {
+        return passwordSSHA;
+    }
 
+    public void setPasswordSSHA(String passwordSSHA) {
+        this.passwordSSHA = passwordSSHA;
+    }
+
+    public int getUidNumber() {
+        return uidNumber;
+    }
+
+    public void setUidNumber(int uidNumber) {
+        this.uidNumber = uidNumber;
+    }
 
     public String getFirstName() {
         return firstName;
@@ -62,43 +85,28 @@ public class Person {
         this.gender = gender;
     }
 
-    public DateTime getBirthDate() {
-        return birthDate;
-    }
+//    public DateTime getBirthDate() {
+//        return birthDate;
+//    }
+//
+//    public void setBirthDate(DateTime birthDate) {
+//        this.birthDate = birthDate;
+//    }
 
-    public void setBirthDate(DateTime birthDate) {
-        this.birthDate = birthDate;
-    }
-
-    public String getGroupId() {
+    public int getGroupId() {
         return groupId;
     }
 
-    public void setGroupId(String groupId) {
+    public void setGroupId(int groupId) {
         this.groupId = groupId;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getUid() {
+        return uid;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
-    public String getHomeDirectory() {
-        return homeDirectory;
-    }
-
-    public void setHomeDirectory(String homeDirectory) {
-        this.homeDirectory = homeDirectory;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
 }

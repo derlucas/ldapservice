@@ -7,14 +7,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ldap.NameNotFoundException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.List;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.*;
 
 @ContextConfiguration(locations = { "classpath:META-INF/spring/root-context.xml" })
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -36,22 +35,36 @@ public class LDAPtests {
         
     }
 
-    @Test
-    public void addUser() {
-        //assertNotNull("list is null", dao.getAllNames());
-        Person person = new Person();
-        person.setLastName("Nord");
-        person.setFirstName("Frank");
-        person.setGender("M");
-        //person.setBirthDate(new DateTime());
-        person.setEmailAddress("frank.nord@example.com");
-        person.setGroupId(String.valueOf(dao.getNextFreeGroupId()));
-        person.setHomeDirectory("/home/fnord");
-        person.setUserId(String.valueOf(dao.getNextFreeUserId()));
-        person.setUserName("fnord");
 
-        dao.create(person);
+//    @Test
+//    public void addUser() {
+//        Person person = new Person();
+//        person.setLastName("Nord");
+//        person.setFirstName("Frank");
+//        person.setGender("M");
+//        person.setBirthDate(new DateTime());
+//        person.setEmailAddress("frank.nord@example.com");
+//        person.setGroupId(dao.getNextFreeGroupId());
+//        person.setUidNumber(dao.getNextFreeUserId());
+//        person.setUid("fnord");
+//
+//        dao.create(person);
+//    }
+    
+    @Test
+    public void findUser() {
+        Person user = dao.findByPrimaryKey("Frank", "Nord");
+        assertNotNull("user not found", user);
     }
+
+//    @Test(expected = NameNotFoundException.class)
+//    public void deleteUser()  {
+//        Person user = dao.findByPrimaryKey("Frank", "Nord");
+//        assertNotNull("user not found", user);
+//        dao.delete(user);
+//
+//        dao.findByPrimaryKey("Frank", "Nord");
+//    }
 
     @Test
     public void getNextFreeGroupId() {

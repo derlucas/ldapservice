@@ -13,7 +13,10 @@ import org.springframework.stereotype.Repository;
 import javax.naming.Name;
 import javax.naming.NamingException;
 import javax.naming.directory.Attributes;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public class PersonDAOImpl implements PersonDAO {
@@ -37,7 +40,9 @@ public class PersonDAOImpl implements PersonDAO {
 
 
     private List getListByAttribute(final String attribute) {
-        List list = ldapTemplate.search("", "(objectclass=inetOrgPerson)",
+        EqualsFilter filter = new EqualsFilter("objectclass", "inetOrgPerson");
+
+        List list = ldapTemplate.search(DistinguishedName.EMPTY_PATH, filter.encode(),
                 new AttributesMapper() {
                     public Object mapFromAttributes(Attributes attrs) throws NamingException {
                         if(attrs.get(attribute) != null) {
@@ -100,8 +105,6 @@ public class PersonDAOImpl implements PersonDAO {
 
     private Name buildDn(String firstName, String lastName) {
         DistinguishedName dn = new DistinguishedName();
-//        dn.add("dc", "de");
-//        dn.add("dc", "chaostreff-dortmund");
         dn.add("ou", "people");
         dn.add("cn", firstName + " " + lastName);
         return dn;
@@ -112,12 +115,13 @@ public class PersonDAOImpl implements PersonDAO {
         context.setAttributeValue("cn", person.getFullName());
         context.setAttributeValue("sn", person.getLastName());
         context.setAttributeValue("givenName", person.getFirstName());
-        //context.setAttributeValue("gender", person.getGender().toUpperCase());
         context.setAttributeValue("mail", person.getEmailAddress());
-        context.setAttributeValue("homeDirectory", person.getHomeDirectory());
-        context.setAttributeValue("uid", person.getUserName());
-        context.setAttributeValue("uidNumber", person.getUserId());
+        context.setAttributeValue("homeDirectory", "/home/" + person.getUid());
+        context.setAttributeValue("uid", person.getUid());
+        context.setAttributeValue("uidNumber", person.getUidNumber());
         context.setAttributeValue("gidNumber", person.getGroupId());
+        context.setAttributeValue("userPassword", person.getPasswordSSHA());
+        //context.setAttributeValue("gender", person.getGender().toUpperCase());
 //        if(person.getBirthDate() != null) {
 //            context.setAttributeValue("dateOfBirth", person.getBirthDate());
 //        }
@@ -128,16 +132,13 @@ public class PersonDAOImpl implements PersonDAO {
             Person person = new Person();
             person.setLastName(context.getStringAttribute("sn"));
             person.setFirstName(context.getStringAttribute("givenName"));
-            person.setGender(context.getStringAttribute("gender"));
-
-            //person.setBirthDate(context.getStringAttribute("dateOfBirth")); TODO
-
             person.setEmailAddress(context.getStringAttribute("mail"));
-            person.setGroupId(context.getStringAttribute("gidNumber"));
-            person.setHomeDirectory(context.getStringAttribute("homeDirectory"));
-            person.setUserId(context.getStringAttribute("uidNumber"));
-            person.setUserName(context.getStringAttribute("uid"));
-
+            person.setGroupId(Integer.parseInt(context.getStringAttribute("gidNumber")));
+            person.setUidNumber(Integer.parseInt(context.getStringAttribute("uidNumber")));
+            person.setUid(context.getStringAttribute("uid"));
+//            person.setPasswordSSHA((context.getStringAttribute("userPassword")));
+//            person.setGender(context.getStringAttribute("gender"));
+//            person.setBirthDate(context.getStringAttribute("dateOfBirth")); TODO
             return person;
         }
     }
