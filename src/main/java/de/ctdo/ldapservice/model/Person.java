@@ -1,37 +1,61 @@
 package de.ctdo.ldapservice.model;
 
-
-import org.joda.time.DateTime;
+import de.ctdo.ldapservice.validation.FieldMatch;
+import de.ctdo.ldapservice.validation.UniqueEmail;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
 
+@FieldMatch(first = "password", second = "passwordConfirmation", message = "{constraints.fieldmatch.password}")
 public class Person {
+    public enum Gender { MALE, FEMALE }
 
-    @NotNull
+    
+    @NotEmpty
     private String firstName;
-    @NotNull
+    @NotEmpty
     private String lastName;
-    @NotNull
+
+    @Email
+    @NotEmpty
     private String emailAddress;
-    @NotNull
+
+    @NotEmpty()
     private String gender;
 //    @Past
 //    private DateTime birthDate;
 
-    @Min(value = 1000)
-    @NotNull
+
     private int groupId;
 
-    @NotNull
+    @NotEmpty
     private String uid;
 
-    @Min(value = 1000)
-    @NotNull
     private int uidNumber;
-    
     private String passwordSSHA;
+
+    @Min(5)
+    private String password;
+    private String passwordConfirmation;
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getPasswordConfirmation() {
+        return passwordConfirmation;
+    }
+
+    public void setPasswordConfirmation(String passwordConfirmation) {
+        this.passwordConfirmation = passwordConfirmation;
+    }
 
     public String getPasswordSSHA() {
         return passwordSSHA;

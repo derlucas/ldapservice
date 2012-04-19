@@ -22,17 +22,9 @@ import javax.validation.Valid;
 @RequestMapping("/person")
 public class RegController  {
     private static final Logger LOGGER = LoggerFactory.getLogger(RegController.class);
-    private Validator validator;
 
-    @Autowired
-    public void setValidator(Validator validator) {
-        this.validator = validator;
-    }
-
-    @InitBinder
-    protected void initBinder(WebDataBinder binder) {
-        binder.setValidator(validator);
-    }
+//    @Autowired
+//    private Validator validator;
 
     @RequestMapping(method = RequestMethod.GET)
     public String handleGet(ModelMap model) {

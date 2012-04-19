@@ -4,3 +4,4 @@ ldapservice.iml
 .project
 .settings/
 target/
+ldapservice.properties

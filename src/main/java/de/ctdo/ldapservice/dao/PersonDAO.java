@@ -14,6 +14,7 @@ public interface PersonDAO {
     void update(Person person);
     void delete(Person person);
     Person findByPrimaryKey(String firstName, String lastName);
+    boolean isEmailPresent(String email);
     List findByName(String name);
     List findAll();
 

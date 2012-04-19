@@ -95,6 +95,14 @@ public class PersonDAOImpl implements PersonDAO {
         return ldapTemplate.search(DistinguishedName.EMPTY_PATH, filter.encode(), getContextMapper());
     }
 
+    @Override
+    public boolean isEmailPresent(String email) {
+        AndFilter filter = new AndFilter();
+        filter.and(new EqualsFilter("objectclass", "inetOrgPerson")).and(new WhitespaceWildcardsFilter("mail", email));
+        List liste = ldapTemplate.search(DistinguishedName.EMPTY_PATH, filter.encode(), getContextMapper());
+        return liste.size() > 0;
+    }
+
     private ContextMapper getContextMapper() {
         return new PersonContextMapper();
     }
