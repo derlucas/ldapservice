@@ -1,17 +1,12 @@
 package de.ctdo.ldapservice;
 
 import de.ctdo.ldapservice.dao.PersonDAO;
-import de.ctdo.ldapservice.model.Person;
-import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ldap.NameNotFoundException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import java.util.List;
 
 import static junit.framework.Assert.*;
 
