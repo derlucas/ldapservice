@@ -88,6 +88,8 @@ public class PersonDAOImpl implements PersonDAO {
         context.setAttributeValue("cn", person.getUid());
         context.setAttributeValue("sn", person.getLastName());
         context.setAttributeValue("givenName", person.getFirstName());
+        context.setAttributeValue("displayName", person.getFirstName());
+        context.setAttributeValue("loginShell", "/bin/bash");
         context.setAttributeValue("mail", person.getEmailAddress());
         context.setAttributeValue("homeDirectory", "/home/" + person.getUid());
         context.setAttributeValue("uid", person.getUid());
