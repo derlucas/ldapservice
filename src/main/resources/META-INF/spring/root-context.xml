@@ -11,16 +11,23 @@
     </context:component-scan>
 
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="location" value="classpath:ldapservice.properties"/>
+        <property name="locations">
+            <array>
+                <value>file:#{systemProperties.ldapregconfigpath}</value>
+                <value>classpath:ldapservice.properties</value>
+            </array>
+        </property>
+        <property name="ignoreUnresolvablePlaceholders" value="true"/>
     </bean>
+
 
     <bean id="contextSource" class="org.springframework.ldap.core.support.LdapContextSource">
         <property name="url" value="${ldap.url}" />
         <property name="base" value="${ldap.base}" />
-        <!--<property name="userDn" value="${ldap.userDn}" />-->
-        <property name="userDn" value="#{systemProperties.ldapuser}" />
-        <!--<property name="password" value="${ldap.secret}" />-->
-        <property name="password" value="#{systemProperties.ldappass}" />
+        <property name="userDn" value="${ldap.userDn}" />
+        <!--<property name="userDn" value="#{systemProperties.ldapuser}" />-->
+        <property name="password" value="${ldap.secret}" />
+        <!--<property name="password" value="#{systemProperties.ldappass}" />-->
     </bean>
 
     <bean id="ldapTemplate" class="org.springframework.ldap.core.LdapTemplate">
