@@ -1,11 +1,10 @@
 package de.ctdo.ldapservice.validation;
 
-import de.ctdo.ldapservice.dao.PersonDAO;
+import de.ctdo.ldapservice.business.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -25,7 +24,7 @@ public class PasswordComplexValidator implements ConstraintValidator<PasswordCom
     }));
 
     @Autowired
-    private PersonDAO dao;
+    private PersonService dao;
 
     @Override
     public void initialize(final PasswordComplex constraintAnnotation) {

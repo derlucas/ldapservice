@@ -1,6 +1,6 @@
 package de.ctdo.ldapservice.web;
 
-import de.ctdo.ldapservice.dao.PersonDAO;
+import de.ctdo.ldapservice.business.PersonService;
 import de.ctdo.ldapservice.model.Person;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +22,7 @@ public class RegController {
     private static final Logger logger = LoggerFactory.getLogger(RegController.class);
 
     @Autowired
-    private PersonDAO personDAO;
+    private PersonService personService;
 
     @RequestMapping(method = RequestMethod.GET)
     public String handleGet(Model model, @ModelAttribute Person person) {
@@ -42,7 +42,7 @@ public class RegController {
             return "person";
         }
 
-        Person p = personDAO.create(person);
+        Person p = personService.create(person);
 
         if (p == null) {
             logger.error("could not save user");

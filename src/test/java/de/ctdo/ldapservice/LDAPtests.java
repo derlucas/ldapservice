@@ -1,6 +1,6 @@
 package de.ctdo.ldapservice;
 
-import de.ctdo.ldapservice.dao.PersonDAO;
+import de.ctdo.ldapservice.business.PersonService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,17 +15,11 @@ import static junit.framework.Assert.*;
 public class LDAPtests {
 
     @Autowired
-    PersonDAO dao;
+    PersonService dao;
 
     @Before
     public void setUp() throws Exception {
 
-    }
-
-
-    @Test
-    public void getNextFreeUserId() {
-        assertTrue("userID not greater 0", dao.getNextFreeUserId() > 0);
     }
 
     @Test

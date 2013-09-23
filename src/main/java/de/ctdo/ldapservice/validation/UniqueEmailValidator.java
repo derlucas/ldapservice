@@ -1,6 +1,6 @@
 package de.ctdo.ldapservice.validation;
 
-import de.ctdo.ldapservice.dao.PersonDAO;
+import de.ctdo.ldapservice.business.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.validation.ConstraintValidator;
@@ -8,7 +8,7 @@ import javax.validation.ConstraintValidatorContext;
 
 public class UniqueEmailValidator implements ConstraintValidator<UniqueEmail, String> {
     @Autowired
-    private PersonDAO dao;
+    private PersonService dao;
 
     @Override
     public void initialize(final UniqueEmail constraintAnnotation) {

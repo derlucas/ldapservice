@@ -1,4 +1,4 @@
-package de.ctdo.ldapservice.business;
+package de.ctdo.ldapservice.utils;
 
 import java.util.List;
 
@@ -8,6 +8,7 @@ import java.util.List;
  */
 public class Helper {
 
+    private Helper() {}
 
     public static int getMaxIntInList(List list) {
         int maxId = 0;

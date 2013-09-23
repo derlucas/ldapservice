@@ -1,22 +1,22 @@
-package de.ctdo.ldapservice.dao;
+package de.ctdo.ldapservice.business;
 
-import de.ctdo.ldapservice.business.Helper;
-import de.ctdo.ldapservice.business.SSHA;
 import de.ctdo.ldapservice.model.Person;
+import de.ctdo.ldapservice.utils.Helper;
+import de.ctdo.ldapservice.utils.SSHA;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ldap.core.*;
 import org.springframework.ldap.core.support.AbstractContextMapper;
 import org.springframework.ldap.filter.AndFilter;
 import org.springframework.ldap.filter.EqualsFilter;
 import org.springframework.ldap.filter.WhitespaceWildcardsFilter;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import javax.naming.NamingException;
 import javax.naming.directory.Attributes;
 import java.util.List;
 
-@Repository
-public class PersonDAOImpl implements PersonDAO {
+@Service
+public class CTDOPersonService implements PersonService {
     public static final String BASE_PEOPLE = "ou=people";
     private PersonContextMapper personContextMapper = new PersonContextMapper();
 
@@ -24,7 +24,40 @@ public class PersonDAOImpl implements PersonDAO {
     private LdapTemplate ldapTemplate;
 
     @Override
-    public int getNextFreeUserId() {
+    public Person create(Person person) {
+
+        DistinguishedName dn = new DistinguishedName();
+        dn.add("ou", "people");
+        dn.add("cn", person.getUid());
+
+        person.setGroupId("2000");
+        person.setUidNumber(getNextFreeUserId() + "");
+        person.setPasswordSSHA(SSHA.getInstance().createDigest(person.getPassword()));
+
+        DirContextAdapter context = new DirContextAdapter(dn);
+        mapToContext(person, context);
+        ldapTemplate.bind(context);
+        return person;
+    }
+
+
+    @Override
+    public boolean isEmailTaken(String email) {
+        if ("".contentEquals(email)) return false;
+        final AndFilter filter = new AndFilter();
+        filter.and(new EqualsFilter("objectclass", "person")).and(new WhitespaceWildcardsFilter("mail", email));
+        return ldapTemplate.search(BASE_PEOPLE, filter.encode(), personContextMapper).size() > 0;
+    }
+
+    @Override
+    public boolean isUidTaken(String uid) {
+        if ("".contentEquals(uid)) return false;
+        final AndFilter filter = new AndFilter();
+        filter.and(new EqualsFilter("objectclass", "person")).and(new WhitespaceWildcardsFilter("uid", uid));
+        return ldapTemplate.search(BASE_PEOPLE, filter.encode(), personContextMapper).size() > 0;
+    }
+
+    private int getNextFreeUserId() {
         return Helper.getMaxIntInList(getListByAttribute("uidNumber")) + 1;
     }
 
@@ -41,47 +74,6 @@ public class PersonDAOImpl implements PersonDAO {
                     }
                 });
     }
-
-
-    @Override
-    public Person create(Person person) {
-
-        //if(!isEmailTaken(person.getEmailAddress()) && !isUidTaken(person.getUid())) {
-            DistinguishedName dn = new DistinguishedName();
-            dn.add("ou", "people");
-            dn.add("cn", person.getUid());
-
-            person.setGroupId("2000");
-            person.setUidNumber(getNextFreeUserId() + "");
-
-            person.setPasswordSSHA(SSHA.getInstance().createDigest(person.getPassword()));
-
-            DirContextAdapter context = new DirContextAdapter(dn);
-            mapToContext(person, context);
-            ldapTemplate.bind(context);
-            return person;
-//        }
-//
-//        return null;
-    }
-
-
-    @Override
-    public boolean isEmailTaken(String email) {
-        if("".contentEquals(email)) return false;
-        final AndFilter filter = new AndFilter();
-        filter.and(new EqualsFilter("objectclass", "person")).and(new WhitespaceWildcardsFilter("mail", email));
-        return ldapTemplate.search(BASE_PEOPLE, filter.encode(), personContextMapper).size() > 0;
-    }
-
-    @Override
-    public boolean isUidTaken(String uid) {
-        if("".contentEquals(uid)) return false;
-        final AndFilter filter = new AndFilter();
-        filter.and(new EqualsFilter("objectclass", "person")).and(new WhitespaceWildcardsFilter("uid", uid));
-        return ldapTemplate.search(BASE_PEOPLE, filter.encode(), personContextMapper).size() > 0;
-    }
-
 
     private void mapToContext(Person person, DirContextOperations context) {
         context.setAttributeValues("objectclass", new String[]{"top", "inetOrgPerson", "posixAccount"});
