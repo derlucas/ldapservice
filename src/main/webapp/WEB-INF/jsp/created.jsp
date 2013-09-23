@@ -10,9 +10,7 @@
 </head>
 <body>
 
-<%--<h3><spring:message code="label.title"/></h3>--%>
-<spring:url value="/register" var="register"/>
-<a href="${register}">Register new Account</a>
+<h3>Benutzer wurde angelegt</h3>
 
 <%--<span style="float: right">--%>
 <%--<a href="?lang=en">en</a> | <a href="?lang=de">de</a>--%>

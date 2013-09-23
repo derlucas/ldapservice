@@ -8,7 +8,6 @@ import java.lang.annotation.Target;
 
 import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
 import static java.lang.annotation.ElementType.FIELD;
-import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
@@ -27,10 +26,10 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Documented
 @Target({FIELD, ANNOTATION_TYPE})
 @Retention(RUNTIME)
-@Constraint(validatedBy = UniqueEmailValidator.class)
-public @interface UniqueEmail
+@Constraint(validatedBy = PasswordComplexValidator.class)
+public @interface PasswordComplex
 {
-    String message() default "{constraints.uniqueemail}";
+    String message() default "{constraints.passwordcomplex}";
 
     Class<?>[] groups() default {};
 

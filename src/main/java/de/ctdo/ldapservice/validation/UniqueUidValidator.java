@@ -6,19 +6,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class UniqueEmailValidator implements ConstraintValidator<UniqueEmail, String> {
+public class UniqueUidValidator implements ConstraintValidator<UniqueUid, String>
+{
     @Autowired
     private PersonDAO dao;
 
     @Override
-    public void initialize(final UniqueEmail constraintAnnotation) {
+    public void initialize(final UniqueUid constraintAnnotation) {
 
     }
 
     @Override
     public boolean isValid(final String value, final ConstraintValidatorContext context) {
-        return !dao.isEmailTaken(String.valueOf(value));
+        return !dao.isUidTaken(String.valueOf(value));
     }
 
-
+    
 }

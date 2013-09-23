@@ -1,45 +1,49 @@
 package de.ctdo.ldapservice.model;
 
 import de.ctdo.ldapservice.validation.FieldMatch;
+import de.ctdo.ldapservice.validation.PasswordComplex;
 import de.ctdo.ldapservice.validation.UniqueEmail;
+import de.ctdo.ldapservice.validation.UniqueUid;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
+import sun.security.util.Password;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @FieldMatch(first = "password", second = "passwordConfirmation", message = "{constraints.fieldmatch.password}")
 public class Person {
-    public enum Gender { MALE, FEMALE }
 
-    
     @NotEmpty
+    @Pattern(regexp = "[a-zA-Z-_0-9öÖäÄüÜß]*")
     private String firstName;
     @NotEmpty
+    @Pattern(regexp = "[a-zA-Z-_0-9öÖäÄüÜß]*")
     private String lastName;
 
     @Email
     @NotEmpty
+    @UniqueEmail
     private String emailAddress;
 
-    @NotEmpty()
-    private String gender;
-//    @Past
-//    private DateTime birthDate;
-
-
-    private int groupId;
+    private String groupId;
 
     @NotEmpty
+    @UniqueUid
+    @Pattern(regexp = "[a-zA-Z-_0-9]*", message = "{constraints.invaliduid}")
     private String uid;
 
-    private int uidNumber;
+    private String uidNumber;
     private String passwordSSHA;
 
-    @Min(5)
+    @Size(min = 6, max = 30)
+    @PasswordComplex
     private String password;
+
     private String passwordConfirmation;
+
 
     public String getPassword() {
         return password;
@@ -65,11 +69,11 @@ public class Person {
         this.passwordSSHA = passwordSSHA;
     }
 
-    public int getUidNumber() {
+    public String getUidNumber() {
         return uidNumber;
     }
 
-    public void setUidNumber(int uidNumber) {
+    public void setUidNumber(String uidNumber) {
         this.uidNumber = uidNumber;
     }
 
@@ -101,27 +105,12 @@ public class Person {
         this.emailAddress = emailAddress;
     }
 
-    public String getGender() {
-        return gender;
-    }
 
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-//    public DateTime getBirthDate() {
-//        return birthDate;
-//    }
-//
-//    public void setBirthDate(DateTime birthDate) {
-//        this.birthDate = birthDate;
-//    }
-
-    public int getGroupId() {
+    public String getGroupId() {
         return groupId;
     }
 
-    public void setGroupId(int groupId) {
+    public void setGroupId(String groupId) {
         this.groupId = groupId;
     }
 

@@ -1,6 +1,7 @@
 package de.ctdo.ldapservice.dao;
 
 import de.ctdo.ldapservice.business.Helper;
+import de.ctdo.ldapservice.business.SSHA;
 import de.ctdo.ldapservice.model.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ldap.core.*;
@@ -10,117 +11,81 @@ import org.springframework.ldap.filter.EqualsFilter;
 import org.springframework.ldap.filter.WhitespaceWildcardsFilter;
 import org.springframework.stereotype.Repository;
 
-import javax.naming.Name;
 import javax.naming.NamingException;
 import javax.naming.directory.Attributes;
-import javax.validation.ConstraintViolation;
-import javax.validation.Validator;
 import java.util.List;
-import java.util.Set;
 
 @Repository
 public class PersonDAOImpl implements PersonDAO {
-    private LdapTemplate ldapTemplate;
+    public static final String BASE_PEOPLE = "ou=people";
+    private PersonContextMapper personContextMapper = new PersonContextMapper();
 
     @Autowired
-    public void setLdapTemplate(LdapTemplate ldapTemplate) {
-        this.ldapTemplate = ldapTemplate;
-    }
-
-    @Override
-    public int getNextFreeGroupId() {
-        List bla = getListByAttribute("gidNumber");
-        return Helper.getMaxIntInList(getListByAttribute("gidNumber")) + 1;
-    }
+    private LdapTemplate ldapTemplate;
 
     @Override
     public int getNextFreeUserId() {
         return Helper.getMaxIntInList(getListByAttribute("uidNumber")) + 1;
     }
 
-
     private List getListByAttribute(final String attribute) {
-        EqualsFilter filter = new EqualsFilter("objectclass", "inetOrgPerson");
+        final EqualsFilter filter = new EqualsFilter("objectclass", "inetOrgPerson");
 
-        List list = ldapTemplate.search(DistinguishedName.EMPTY_PATH, filter.encode(),
+        return ldapTemplate.search(BASE_PEOPLE, filter.encode(),
                 new AttributesMapper() {
                     public Object mapFromAttributes(Attributes attrs) throws NamingException {
-                        if(attrs.get(attribute) != null) {
+                        if (attrs.get(attribute) != null) {
                             return attrs.get(attribute).get();
                         }
                         return null;
                     }
                 });
-        return list;
     }
-
 
 
     @Override
-    public void create(Person person) {
-        DirContextAdapter context = new DirContextAdapter(buildDn(person));
-        mapToContext(person, context);
-        ldapTemplate.bind(context);
+    public Person create(Person person) {
+
+        //if(!isEmailTaken(person.getEmailAddress()) && !isUidTaken(person.getUid())) {
+            DistinguishedName dn = new DistinguishedName();
+            dn.add("ou", "people");
+            dn.add("cn", person.getUid());
+
+            person.setGroupId("2000");
+            person.setUidNumber(getNextFreeUserId() + "");
+
+            person.setPasswordSSHA(SSHA.getInstance().createDigest(person.getPassword()));
+
+            DirContextAdapter context = new DirContextAdapter(dn);
+            mapToContext(person, context);
+            ldapTemplate.bind(context);
+            return person;
+//        }
+//
+//        return null;
+    }
+
+
+    @Override
+    public boolean isEmailTaken(String email) {
+        if("".contentEquals(email)) return false;
+        final AndFilter filter = new AndFilter();
+        filter.and(new EqualsFilter("objectclass", "person")).and(new WhitespaceWildcardsFilter("mail", email));
+        return ldapTemplate.search(BASE_PEOPLE, filter.encode(), personContextMapper).size() > 0;
     }
 
     @Override
-    public void update(Person person) {
-        Name dn = buildDn(person);
-        DirContextOperations context = ldapTemplate.lookupContext(dn);
-        mapToContext(person, context);
-        ldapTemplate.modifyAttributes(context);
+    public boolean isUidTaken(String uid) {
+        if("".contentEquals(uid)) return false;
+        final AndFilter filter = new AndFilter();
+        filter.and(new EqualsFilter("objectclass", "person")).and(new WhitespaceWildcardsFilter("uid", uid));
+        return ldapTemplate.search(BASE_PEOPLE, filter.encode(), personContextMapper).size() > 0;
     }
 
-    @Override
-    public void delete(Person person) {
-        ldapTemplate.unbind(buildDn(person));
-    }
-
-    @Override
-    public Person findByPrimaryKey(String firstName, String lastName) {
-        Name dn = buildDn(firstName, lastName);
-        return (Person) ldapTemplate.lookup(dn, getContextMapper());
-    }
-
-    @Override
-    public List findByName(String name) {
-        AndFilter filter = new AndFilter();
-        filter.and(new EqualsFilter("objectclass", "inetOrgPerson")).and(new WhitespaceWildcardsFilter("cn", name));
-        return ldapTemplate.search(DistinguishedName.EMPTY_PATH, filter.encode(), getContextMapper());
-    }
-
-    @Override
-    public List findAll() {
-        EqualsFilter filter = new EqualsFilter("objectclass", "inetOrgPerson");
-        return ldapTemplate.search(DistinguishedName.EMPTY_PATH, filter.encode(), getContextMapper());
-    }
-
-    @Override
-    public boolean isEmailPresent(String email) {
-        AndFilter filter = new AndFilter();
-        filter.and(new EqualsFilter("objectclass", "inetOrgPerson")).and(new WhitespaceWildcardsFilter("mail", email));
-        List liste = ldapTemplate.search(DistinguishedName.EMPTY_PATH, filter.encode(), getContextMapper());
-        return liste.size() > 0;
-    }
-
-    private ContextMapper getContextMapper() {
-        return new PersonContextMapper();
-    }
-
-    private Name buildDn(Person person) {
-        return buildDn(person.getFirstName(), person.getLastName());
-    }
-
-    private Name buildDn(String firstName, String lastName) {
-        DistinguishedName dn = new DistinguishedName();
-        dn.add("ou", "people");
-        dn.add("cn", firstName + " " + lastName);
-        return dn;
-    }
 
     private void mapToContext(Person person, DirContextOperations context) {
-        context.setAttributeValues("objectclass", new String[]{"top", "person", "organizationalPerson","inetOrgPerson","posixAccount","shadowAccount"});
-        context.setAttributeValue("cn", person.getFullName());
+        context.setAttributeValues("objectclass", new String[]{"top", "inetOrgPerson", "posixAccount"});
+        context.setAttributeValue("cn", person.getUid());
         context.setAttributeValue("sn", person.getLastName());
         context.setAttributeValue("givenName", person.getFirstName());
         context.setAttributeValue("mail", person.getEmailAddress());
@@ -129,10 +94,6 @@ public class PersonDAOImpl implements PersonDAO {
         context.setAttributeValue("uidNumber", person.getUidNumber());
         context.setAttributeValue("gidNumber", person.getGroupId());
         context.setAttributeValue("userPassword", person.getPasswordSSHA());
-        //context.setAttributeValue("gender", person.getGender().toUpperCase());
-//        if(person.getBirthDate() != null) {
-//            context.setAttributeValue("dateOfBirth", person.getBirthDate());
-//        }
     }
 
     private static class PersonContextMapper extends AbstractContextMapper {
@@ -141,12 +102,9 @@ public class PersonDAOImpl implements PersonDAO {
             person.setLastName(context.getStringAttribute("sn"));
             person.setFirstName(context.getStringAttribute("givenName"));
             person.setEmailAddress(context.getStringAttribute("mail"));
-            person.setGroupId(Integer.parseInt(context.getStringAttribute("gidNumber")));
-            person.setUidNumber(Integer.parseInt(context.getStringAttribute("uidNumber")));
+            person.setGroupId(context.getStringAttribute("gidNumber"));
+            person.setUidNumber(context.getStringAttribute("uidNumber"));
             person.setUid(context.getStringAttribute("uid"));
-//            person.setPasswordSSHA((context.getStringAttribute("userPassword")));
-//            person.setGender(context.getStringAttribute("gender"));
-//            person.setBirthDate(context.getStringAttribute("dateOfBirth")); TODO
             return person;
         }
     }

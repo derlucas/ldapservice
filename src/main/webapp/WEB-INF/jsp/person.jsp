@@ -19,7 +19,7 @@
 
             <div class="span-12 last">
 
-                <form:form modelAttribute="person" action="person" method="post">
+                <form:form modelAttribute="person" method="POST">
 
                     <fieldset>
                         <legend>Person Fields</legend>
@@ -49,16 +49,10 @@
                             <form:password path="passwordConfirmation" /> <form:errors path="passwordConfirmation" cssStyle="color : red;" />
                         </p>
                         <p>
-                            <form:label for="gender" path="gender" cssErrorClass="error">Geschlecht</form:label><br/>
-                            <form:select path="gender">
-                                <form:option value="" label="-" />
-                                <form:option value="M" label="männlich" />
-                                <form:option value="W" label="weiblich" />
-                            </form:select> <form:errors path="gender" cssStyle="color : red;" />
-                        </p>
-
-                        <p>
                             <input type="submit" />
+                        </p>
+                        <p>
+                            <form:errors path="*" cssClass="errorBox" />
                         </p>
                     </fieldset>
                 </form:form>

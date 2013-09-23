@@ -3,11 +3,12 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:p="http://www.springframework.org/schema/p"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd ">
 
-    <context:component-scan base-package="de.ctdo.ldapservice.controller"/>
+    <context:component-scan base-package="de.ctdo.ldapservice.web"/>
 
     <!-- Configures the @Controller programming model -->
     <mvc:annotation-driven validator="validator" />
@@ -24,20 +25,29 @@
     </bean>
 
     <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
-        <property name="basename" value="classpath:messages" />
+        <property name="basename" value="classpath:messages, classpath:ValidationMessages" />
         <property name="defaultEncoding" value="UTF-8"/>
     </bean>
 
-    <bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
-        <property name="paramName" value="lang" />
-    </bean>
 
-    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
-        <property name="defaultLocale" value="de"/>
-    </bean>
+    <bean class="org.springframework.web.servlet.i18n.CookieLocaleResolver" id="localeResolver" p:cookieName="locale"/>
 
     <mvc:interceptors>
-        <ref bean="localeChangeInterceptor" />
+        <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" p:paramName="lang"/>
     </mvc:interceptors>
+
+    <!--<mvc:view-controller path="/uncaughtException"/>-->
+    <!--<mvc:view-controller path="/resourceNotFound"/>-->
+
+    <!--<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver"-->
+          <!--p:defaultErrorView="uncaughtException">-->
+        <!--<property name="exceptionMappings">-->
+            <!--<props>-->
+                <!--<prop key=".NoSuchRequestHandlingMethodException">resourceNotFound</prop>-->
+                <!--<prop key=".TypeMismatchException">resourceNotFound</prop>-->
+                <!--<prop key=".MissingServletRequestParameterException">resourceNotFound</prop>-->
+            <!--</props>-->
+        <!--</property>-->
+    <!--</bean>-->
 
 </beans>
