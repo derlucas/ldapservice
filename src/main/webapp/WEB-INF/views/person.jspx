@@ -1,0 +1,54 @@
+<div xmlns:jsp="http://java.sun.com/JSP/Page"
+     xmlns:form="http://www.springframework.org/tags/form" version="2.0">
+    <jsp:output omit-xml-declaration="yes"/>
+
+    <div >
+        <form:form modelAttribute="person" method="POST">
+            <fieldset>
+                <legend>Daten</legend>
+                <p>
+                    <form:label for="firstName" path="firstName" cssErrorClass="error">Vorname</form:label><br/>
+                    <form:input path="firstName"/> <form:errors path="firstName" cssStyle="color : red;"/>
+                </p>
+
+                <p>
+                    <form:label for="lastName" path="lastName" cssErrorClass="error">Nachname</form:label><br/>
+                    <form:input path="lastName"/> <form:errors path="lastName" cssStyle="color : red;"/>
+                </p>
+
+                <p>
+                    <form:label for="emailAddress" path="emailAddress" cssErrorClass="error">E-Mail</form:label><br/>
+                    <form:input path="emailAddress"/> <form:errors path="emailAddress" cssStyle="color : red;"/>
+                </p>
+
+                <p>
+                    <form:label for="uid" path="uid" cssErrorClass="error">Nickname</form:label><br/>
+                    <form:input path="uid"/> <form:errors path="uid" cssStyle="color : red;"/>
+                </p>
+
+                <p>
+                    <form:label for="password" path="password" cssErrorClass="error">Passwort</form:label><br/>
+                    <form:password path="password"/> <form:errors path="password" cssStyle="color : red;"/>
+                </p>
+
+                <p>
+                    <form:label for="passwordConfirmation" path="uid"
+                                cssErrorClass="error">Passwort (nochmal)</form:label><br/>
+                    <form:password path="passwordConfirmation"/> <form:errors path="passwordConfirmation"
+                                                                              cssStyle="color : red;"/>
+                </p>
+
+                <p>
+                    <input type="submit"/>
+                </p>
+
+                <p>
+                    <form:errors path="*" cssClass="errorBox"/>
+                </p>
+            </fieldset>
+        </form:form>
+    </div>
+
+
+</div>
+

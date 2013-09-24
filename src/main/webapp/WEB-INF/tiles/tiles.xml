@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+        "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
+        "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+
+<tiles-definitions>
+
+    <definition name="default" template="/WEB-INF/tiles/default.jspx">
+        <!--<put-attribute name="body" value="/WEB-INF/views/index.jspx" />-->
+    </definition>
+
+
+    <definition name="*" extends="default">
+        <put-attribute name="body" value="/WEB-INF/views/{1}.jspx"/>
+    </definition>
+
+    <definition name="*/*" extends="default">
+        <put-attribute name="body" value="/WEB-INF/views/{1}/{2}.jspx"/>
+    </definition>
+
+
+    <definition name="resourceNotFound" extends="default">
+        <put-attribute name="body" value="/WEB-INF/views/resourceNotFound.jspx"/>
+    </definition>
+
+    <definition name="resourceForbidden" extends="default">
+        <put-attribute name="body" value="/WEB-INF/views/resourceForbidden.jspx"/>
+    </definition>
+
+    <definition name="uncaughtException" extends="default">
+        <put-attribute name="body" value="/WEB-INF/views/uncaughtException.jspx"/>
+    </definition>
+
+</tiles-definitions>

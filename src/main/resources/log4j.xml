@@ -12,7 +12,7 @@
 	</appender>
 
 	<logger name="org.springframework">
-		<level value="info" />
+		<level value="WARN" />
 	</logger>
 
 
@@ -21,9 +21,8 @@
     </logger>
 
     <logger name="org.hibernate">
-        <level value="info" />
+        <level value="WARN" />
     </logger>
-
 
 	<root>
 		<priority value="info" />

@@ -17,11 +17,6 @@ public class LDAPtests {
     @Autowired
     PersonService dao;
 
-    @Before
-    public void setUp() throws Exception {
-
-    }
-
     @Test
     public void testIsEmailTaken() {
         boolean result = dao.isEmailTaken("punkt@ctdo.de");

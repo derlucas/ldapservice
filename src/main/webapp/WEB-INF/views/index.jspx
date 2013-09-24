@@ -1,0 +1,19 @@
+<div xmlns:spring="http://www.springframework.org/tags"
+     xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+<jsp:output omit-xml-declaration="yes"/>
+
+
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">LDAP Self Service</h3>
+        </div>
+        <div class="panel-body">
+            <spring:url value="/register" var="register"/>
+            <a href="${register}">Register new Account</a>
+
+        </div>
+    </div>
+
+
+</div>

@@ -3,12 +3,17 @@ package de.ctdo.ldapservice.business;
 import de.ctdo.ldapservice.model.Person;
 import de.ctdo.ldapservice.utils.Helper;
 import de.ctdo.ldapservice.utils.SSHA;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ldap.core.*;
 import org.springframework.ldap.core.support.AbstractContextMapper;
 import org.springframework.ldap.filter.AndFilter;
 import org.springframework.ldap.filter.EqualsFilter;
 import org.springframework.ldap.filter.WhitespaceWildcardsFilter;
+import org.springframework.mail.MailException;
+import org.springframework.mail.MailSender;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 
 import javax.naming.NamingException;
@@ -17,11 +22,18 @@ import java.util.List;
 
 @Service
 public class CTDOPersonService implements PersonService {
-    public static final String BASE_PEOPLE = "ou=people";
-    private PersonContextMapper personContextMapper = new PersonContextMapper();
+    private static final Logger logger = LoggerFactory.getLogger(CTDOPersonService.class);
+    private static final String BASE_PEOPLE = "ou=people";
+    private final PersonContextMapper personContextMapper = new PersonContextMapper();
 
     @Autowired
     private LdapTemplate ldapTemplate;
+
+    @Autowired
+    private MailSender mailSender;
+    @Autowired
+    private SimpleMailMessage simpleMailMessage;
+
 
     @Override
     public Person create(Person person) {
@@ -37,7 +49,23 @@ public class CTDOPersonService implements PersonService {
         DirContextAdapter context = new DirContextAdapter(dn);
         mapToContext(person, context);
         ldapTemplate.bind(context);
+
+        sendEmail(person);
+
         return person;
+    }
+
+    private void sendEmail(Person person) {
+        SimpleMailMessage msg = new SimpleMailMessage(simpleMailMessage);
+        msg.setText("Added new user " + person);
+        msg.setSubject("CTDO LDAP Self Service New user");
+
+        try{
+            this.mailSender.send(msg);
+        }
+        catch(Exception ex) {
+            logger.error("could not send email", ex);
+        }
     }
 
 
@@ -58,21 +86,19 @@ public class CTDOPersonService implements PersonService {
     }
 
     private int getNextFreeUserId() {
-        return Helper.getMaxIntInList(getListByAttribute("uidNumber")) + 1;
-    }
+        final EqualsFilter filter = new EqualsFilter("objectclass", "person");
 
-    private List getListByAttribute(final String attribute) {
-        final EqualsFilter filter = new EqualsFilter("objectclass", "inetOrgPerson");
-
-        return ldapTemplate.search(BASE_PEOPLE, filter.encode(),
+        List list = ldapTemplate.search(BASE_PEOPLE, filter.encode(),
                 new AttributesMapper() {
                     public Object mapFromAttributes(Attributes attrs) throws NamingException {
-                        if (attrs.get(attribute) != null) {
-                            return attrs.get(attribute).get();
+                        if (attrs.get("uidNumber") != null) {
+                            return attrs.get("uidNumber").get();
                         }
                         return null;
                     }
                 });
+
+        return Helper.getMaxIntInList(list) + 1;
     }
 
     private void mapToContext(Person person, DirContextOperations context) {

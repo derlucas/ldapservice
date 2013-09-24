@@ -122,4 +122,18 @@ public class Person {
         this.uid = uid;
     }
 
+    @Override
+    public String toString() {
+        return "Person{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", emailAddress='" + emailAddress + '\'' +
+                ", groupId='" + groupId + '\'' +
+                ", uid='" + uid + '\'' +
+                ", uidNumber='" + uidNumber + '\'' +
+                ", passwordSSHA='" + passwordSSHA + '\'' +
+                ", password='" + password + '\'' +
+                ", passwordConfirmation='" + passwordConfirmation + '\'' +
+                "} " + super.toString();
+    }
 }

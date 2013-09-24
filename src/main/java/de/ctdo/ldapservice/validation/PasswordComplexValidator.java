@@ -12,7 +12,7 @@ import java.util.Collection;
 public class PasswordComplexValidator implements ConstraintValidator<PasswordComplex, String> {
 
     // hilft nicht, oder? :)
-    private Collection<String> words = new ArrayList<String>(Arrays.asList(new String[] { "foobar",
+    private final Collection<String> words = new ArrayList<String>(Arrays.asList(new String[] { "foobar",
             "foobar23",
             "foobar42",
             "foobar2342",

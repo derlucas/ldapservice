@@ -4,10 +4,9 @@ import sun.misc.BASE64Encoder;
 import java.security.MessageDigest;
 
 public class SSHA {
-    private static BASE64Encoder enc = new BASE64Encoder();
+    private final static BASE64Encoder enc = new BASE64Encoder();
     private MessageDigest sha = null;
-
-    private static SSHA inst = new SSHA();
+    private static final SSHA inst = new SSHA();
 
     public static SSHA getInstance() {
         return inst;
@@ -21,7 +20,7 @@ public class SSHA {
         }
     }
 
-    public String createDigest(byte[] salt, String entity) {
+    String createDigest(byte[] salt, String entity) {
         String label = "{SSHA}";
 
         // Update digest object with byte array of the source clear text
@@ -32,7 +31,7 @@ public class SSHA {
 
         // Complete hash computation, this results in binary data
         byte[] pwhash = sha.digest();
-        return label + new String(enc.encode(concatenate(pwhash, salt)));
+        return label + enc.encode(concatenate(pwhash, salt));
     }
 
     /**

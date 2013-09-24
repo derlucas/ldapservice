@@ -1,0 +1,39 @@
+<html xmlns:jsp="http://java.sun.com/JSP/Page"
+      xmlns:tiles="http://tiles.apache.org/tags-tiles" xmlns:spring="http://www.springframework.org/tags">
+<jsp:output doctype-root-element="HTML" doctype-system="about:legacy-compat"/>
+<jsp:directive.page contentType="text/html;charset=UTF-8"/>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=8"/>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <spring:url value="/resources/bootstrap.min.css" var="bootsrapcss"/>
+    <spring:url value="/resources/normalize.css" var="nomalizecss"/>
+
+    <link href="${bootsrapcss}" rel="stylesheet" media="screen"/>
+    <link href="${nomalizecss}" rel="stylesheet" media="screen"/>
+
+    <title>CTDO LDAP Registration Portal</title>
+</head>
+
+<body class="claro spring">
+
+<div class="container">
+
+    <tiles:insertAttribute name="body"/>
+
+
+</div>
+
+<spring:url value="/resources/bootstrap.min.js" var="bootstrapjs"/>
+<script src="${bootstrapjs}">/* */</script>
+
+<spring:url value="/resources/jquery.js" var="jqjs"/>
+<script src="${jqjs}">/* */</script>
+
+<spring:url value="/resources/modernizr-2.6.2.min.js" var="modernizr"/>
+<script src="${modernizr}">/* */</script>
+
+</body>
+</html>
