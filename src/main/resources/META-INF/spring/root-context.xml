@@ -15,7 +15,7 @@
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="locations">
             <array>
-                <value>file:#{systemProperties.ldapregconfigpath}</value>
+                <!-- <value>file:#{systemProperties.ldapregconfigpath}</value> -->
                 <value>classpath:ldapservice.properties</value>
             </array>
         </property>

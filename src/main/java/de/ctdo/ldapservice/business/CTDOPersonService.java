@@ -11,10 +11,10 @@ import org.springframework.ldap.core.support.AbstractContextMapper;
 import org.springframework.ldap.filter.AndFilter;
 import org.springframework.ldap.filter.EqualsFilter;
 import org.springframework.ldap.filter.WhitespaceWildcardsFilter;
-import org.springframework.mail.MailException;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import javax.naming.NamingException;
 import javax.naming.directory.Attributes;
@@ -22,7 +22,7 @@ import java.util.List;
 
 @Service
 public class CTDOPersonService implements PersonService {
-    private static final Logger logger = LoggerFactory.getLogger(CTDOPersonService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CTDOPersonService.class);
     private static final String BASE_PEOPLE = "ou=people";
     private final PersonContextMapper personContextMapper = new PersonContextMapper();
 
@@ -60,18 +60,19 @@ public class CTDOPersonService implements PersonService {
         msg.setText("Added new user " + person);
         msg.setSubject("CTDO LDAP Self Service New user");
 
-        try{
+        try {
             this.mailSender.send(msg);
-        }
-        catch(Exception ex) {
-            logger.error("could not send email", ex);
+        } catch (Exception ex) {
+            LOGGER.error("could not send email", ex);
         }
     }
 
 
     @Override
     public boolean isEmailTaken(String email) {
-        if ("".contentEquals(email)) return false;
+        if (StringUtils.isEmpty(email)) {
+            return false;
+        }
         final AndFilter filter = new AndFilter();
         filter.and(new EqualsFilter("objectclass", "person")).and(new WhitespaceWildcardsFilter("mail", email));
         return ldapTemplate.search(BASE_PEOPLE, filter.encode(), personContextMapper).size() > 0;
@@ -79,7 +80,9 @@ public class CTDOPersonService implements PersonService {
 
     @Override
     public boolean isUidTaken(String uid) {
-        if ("".contentEquals(uid)) return false;
+        if (StringUtils.isEmpty(uid)) {
+            return false;
+        }
         final AndFilter filter = new AndFilter();
         filter.and(new EqualsFilter("objectclass", "person")).and(new WhitespaceWildcardsFilter("uid", uid));
         return ldapTemplate.search(BASE_PEOPLE, filter.encode(), personContextMapper).size() > 0;

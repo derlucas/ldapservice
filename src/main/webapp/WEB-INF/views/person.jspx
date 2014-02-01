@@ -2,7 +2,7 @@
      xmlns:form="http://www.springframework.org/tags/form" version="2.0">
     <jsp:output omit-xml-declaration="yes"/>
 
-    <div >
+    <div>
         <form:form modelAttribute="person" method="POST">
             <fieldset>
                 <legend>Daten</legend>
@@ -36,6 +36,20 @@
                                 cssErrorClass="error">Passwort (nochmal)</form:label><br/>
                     <form:password path="passwordConfirmation"/> <form:errors path="passwordConfirmation"
                                                                               cssStyle="color : red;"/>
+                </p>
+
+                <p>
+                    <form:label for="shell" path="shell"
+                                cssErrorClass="error">Login-Shell</form:label><br/>
+                    <form:select cssClass="form-control" path="shell">
+                        <form:option value="/bin/bash">/bin/bash</form:option>
+                        <form:option value="/bin/dash">/bin/dash</form:option>
+                        <form:option value="/bin/false">/bin/false</form:option>
+                        <form:option value="/bin/sh">/bin/sh</form:option>
+                        <form:option value="/bin/tcsh">/bin/tcsh</form:option>
+                        <form:option value="/bin/zsh">/bin/zsh</form:option>
+                        <form:option value="/usr/bin/fish">/usr/bin/fish</form:option>
+                    </form:select>
                 </p>
 
                 <p>

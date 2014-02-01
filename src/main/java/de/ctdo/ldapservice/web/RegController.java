@@ -19,14 +19,14 @@ import javax.validation.Valid;
 @Controller
 @RequestMapping("/register")
 public class RegController {
-    private static final Logger logger = LoggerFactory.getLogger(RegController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RegController.class);
 
     @Autowired
     private PersonService personService;
 
     @RequestMapping(method = RequestMethod.GET)
     public String handleGet(Model model, @ModelAttribute Person person) {
-        logger.info("handleGet model = " + model);
+        LOGGER.info("handleGet model = " + model);
 
         model.addAttribute("person", person);
         return "person";
@@ -35,17 +35,17 @@ public class RegController {
 
     @RequestMapping(method = RequestMethod.POST)
     public String handlePost(@Valid Person person, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
-        logger.info("handlePost person = " + person + " bindingResult = " + bindingResult);
+        LOGGER.info("handlePost person = " + person + " bindingResult = " + bindingResult);
 
         if (bindingResult.hasErrors()) {
-            logger.info("has Errors");
+            LOGGER.info("has Errors");
             return "person";
         }
 
         Person p = personService.create(person);
 
         if (p == null) {
-            logger.error("could not save user");
+            LOGGER.error("could not save user");
             bindingResult.reject("status.user.notcreated");
             return "person";
         }

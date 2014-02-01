@@ -6,10 +6,7 @@ import de.ctdo.ldapservice.validation.UniqueEmail;
 import de.ctdo.ldapservice.validation.UniqueUid;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
-import sun.security.util.Password;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
@@ -44,10 +41,13 @@ public class Person {
 
     private String passwordConfirmation;
 
+    @NotEmpty
+    private String shell = "/bin/false";
 
     public String getPassword() {
         return password;
     }
+
 
     public void setPassword(String password) {
         this.password = password;
@@ -105,10 +105,10 @@ public class Person {
         this.emailAddress = emailAddress;
     }
 
-
     public String getGroupId() {
         return groupId;
     }
+
 
     public void setGroupId(String groupId) {
         this.groupId = groupId;
@@ -120,6 +120,14 @@ public class Person {
 
     public void setUid(String uid) {
         this.uid = uid;
+    }
+
+    public String getShell() {
+        return shell;
+    }
+
+    public void setShell(String shell) {
+        this.shell = shell;
     }
 
     @Override

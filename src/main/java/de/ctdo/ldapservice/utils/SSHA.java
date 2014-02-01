@@ -3,13 +3,13 @@ package de.ctdo.ldapservice.utils;
 import sun.misc.BASE64Encoder;
 import java.security.MessageDigest;
 
-public class SSHA {
-    private final static BASE64Encoder enc = new BASE64Encoder();
+public final class SSHA {
+    private static final BASE64Encoder ENCODER  = new BASE64Encoder();
     private MessageDigest sha = null;
-    private static final SSHA inst = new SSHA();
+    private static final SSHA INSTANCE = new SSHA();
 
-    public static SSHA getInstance() {
-        return inst;
+    public static  SSHA getInstance() {
+        return INSTANCE;
     }
 
     private SSHA() {
@@ -31,7 +31,7 @@ public class SSHA {
 
         // Complete hash computation, this results in binary data
         byte[] pwhash = sha.digest();
-        return label + enc.encode(concatenate(pwhash, salt));
+        return label + ENCODER.encode(concatenate(pwhash, salt));
     }
 
     /**
@@ -42,7 +42,7 @@ public class SSHA {
      *         operation
      */
     public String createDigest(String entity) {
-        return inst.createDigest(randSalt(), entity);
+        return INSTANCE.createDigest(randSalt(), entity);
     }
 
 
