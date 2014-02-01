@@ -1,6 +1,7 @@
 package de.ctdo.ldapservice.utils;
 
 import sun.misc.BASE64Encoder;
+
 import java.security.MessageDigest;
 
 public final class SSHA {

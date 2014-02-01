@@ -39,9 +39,9 @@
                 </p>
 
                 <p>
-                    <form:label for="shell" path="shell"
+                    <form:label for="loginShell" path="loginShell"
                                 cssErrorClass="error">Login-Shell</form:label><br/>
-                    <form:select cssClass="form-control" path="shell">
+                    <form:select cssClass="form-control" path="loginShell">
                         <form:option value="/bin/bash">/bin/bash</form:option>
                         <form:option value="/bin/dash">/bin/dash</form:option>
                         <form:option value="/bin/false">/bin/false</form:option>

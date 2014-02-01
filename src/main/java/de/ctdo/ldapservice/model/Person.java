@@ -42,7 +42,7 @@ public class Person {
     private String passwordConfirmation;
 
     @NotEmpty
-    private String shell = "/bin/false";
+    private String loginShell = "/bin/false";
 
     public String getPassword() {
         return password;
@@ -122,12 +122,12 @@ public class Person {
         this.uid = uid;
     }
 
-    public String getShell() {
-        return shell;
+    public String getLoginShell() {
+        return loginShell;
     }
 
-    public void setShell(String shell) {
-        this.shell = shell;
+    public void setLoginShell(String loginShell) {
+        this.loginShell = loginShell;
     }
 
     @Override
