@@ -8,8 +8,8 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-    <spring:url value="/resources/bootstrap.min.css" var="bootsrapcss"/>
-    <spring:url value="/resources/normalize.css" var="nomalizecss"/>
+    <spring:url value="/resources/css/bootstrap.min.css" var="bootsrapcss"/>
+    <spring:url value="/resources/css/normalize.css" var="nomalizecss"/>
 
     <link href="${bootsrapcss}" rel="stylesheet" media="screen"/>
     <link href="${nomalizecss}" rel="stylesheet" media="screen"/>
@@ -19,20 +19,20 @@
 
 <body class="claro spring">
 
-<div class="container">
+<div class="container-fluid">
 
     <tiles:insertAttribute name="body"/>
 
 
 </div>
 
-<spring:url value="/resources/bootstrap.min.js" var="bootstrapjs"/>
+<spring:url value="/resources/js/bootstrap.min.js" var="bootstrapjs"/>
 <script src="${bootstrapjs}">/* */</script>
 
-<spring:url value="/resources/jquery.js" var="jqjs"/>
+<spring:url value="/resources/js/jquery-2.1.0.min.js" var="jqjs"/>
 <script src="${jqjs}">/* */</script>
 
-<spring:url value="/resources/modernizr-2.6.2.min.js" var="modernizr"/>
+<spring:url value="/resources/js/modernizr-2.6.2.min.js" var="modernizr"/>
 <script src="${modernizr}">/* */</script>
 
 </body>
