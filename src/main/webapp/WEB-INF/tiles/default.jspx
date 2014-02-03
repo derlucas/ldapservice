@@ -26,11 +26,11 @@
 
 </div>
 
-<spring:url value="/resources/js/bootstrap.min.js" var="bootstrapjs"/>
-<script src="${bootstrapjs}">/* */</script>
-
 <spring:url value="/resources/js/jquery-2.1.0.min.js" var="jqjs"/>
 <script src="${jqjs}">/* */</script>
+
+<spring:url value="/resources/js/bootstrap.min.js" var="bootstrapjs"/>
+<script src="${bootstrapjs}">/* */</script>
 
 <spring:url value="/resources/js/modernizr-2.6.2.min.js" var="modernizr"/>
 <script src="${modernizr}">/* */</script>

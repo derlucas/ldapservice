@@ -10,7 +10,7 @@
                 <form:label cssClass="col-sm-2 control-label" for="firstName" path="firstName">Vorname</form:label>
                 <div class="col-sm-10">
                     <form:input path="firstName" placeholder="Frank" cssClass="form-control"/>
-                    <form:errors path="firstName" cssClass="help-block" cssStyle="color : red;"/>
+                    <form:errors path="firstName" cssStyle="color : red;"/>
                 </div>
             </div>
 
@@ -18,7 +18,7 @@
                 <form:label cssClass="col-sm-2 control-label" for="lastName" path="lastName">Nachname</form:label>
                 <div class="col-sm-10">
                     <form:input path="lastName" placeholder="Nord" cssClass="form-control"/>
-                    <form:errors cssClass="help-inline" path="lastName" cssStyle="color : red;"/>
+                    <form:errors path="lastName" cssStyle="color : red;"/>
                 </div>
             </div>
 
