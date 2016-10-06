@@ -1,0 +1,29 @@
+app:
+    ldap:
+        url: ldap://auth2.ctdo.de:389
+        base: dc=chaostreff-dortmund,dc=de
+        userDn: cn=selfservice,ou=admins,dc=chaostreff-dortmund,dc=de
+        password:
+
+    email:
+        from: server-admin@chaostreff-dortmund.de
+        subject: "CTDO Self Service: New User"
+        to: server-admin@chaostreff-dortmund.de
+    shells: /bin/bash,/bin/dash,/bin/false,/bin/sh,/bin/tcsh,/bin/zsh,/usr/bin/fish
+
+spring:
+    mail:
+        host: mail.chaostreff-dortmund.de
+    main:
+        banner: off
+    thymeleaf:
+            cache: false
+    jackson:
+        serialization:
+            indent_output: true
+        date-format: yyyy-MM-dd'T'HH:mm:ss.SSSZ
+    mvc:
+        favicon:
+            enabled: false
+
+

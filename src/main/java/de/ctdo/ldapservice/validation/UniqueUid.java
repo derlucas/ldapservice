@@ -12,8 +12,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Target({FIELD, ANNOTATION_TYPE})
 @Retention(RUNTIME)
 @Constraint(validatedBy = UniqueUidValidator.class)
-public @interface UniqueUid
-{
+public @interface UniqueUid {
+
     String message() default "{constraints.uniqueuid}";
 
     Class<?>[] groups() default {};

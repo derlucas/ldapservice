@@ -1,0 +1,8 @@
+{
+  "name": "ldapservice",
+  "private": true,
+  "description": "CTDO LDAP Self service app",
+  "devDependencies": {
+    "bower": "~1.7.9"
+  }
+}

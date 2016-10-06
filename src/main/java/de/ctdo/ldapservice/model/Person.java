@@ -4,12 +4,14 @@ import de.ctdo.ldapservice.validation.FieldMatch;
 import de.ctdo.ldapservice.validation.PasswordComplex;
 import de.ctdo.ldapservice.validation.UniqueEmail;
 import de.ctdo.ldapservice.validation.UniqueUid;
+import lombok.Data;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+@Data
 @FieldMatch(first = "password", second = "passwordConfirmation", message = "{constraints.fieldmatch.password}")
 public class Person {
 
@@ -42,103 +44,7 @@ public class Person {
     private String passwordConfirmation;
 
     @NotEmpty
-    private String loginShell = "/bin/false";
-
-    public String getPassword() {
-        return password;
-    }
+    private String loginShell = "/bin/bash";
 
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getPasswordConfirmation() {
-        return passwordConfirmation;
-    }
-
-    public void setPasswordConfirmation(String passwordConfirmation) {
-        this.passwordConfirmation = passwordConfirmation;
-    }
-
-    public String getPasswordSSHA() {
-        return passwordSSHA;
-    }
-
-    public void setPasswordSSHA(String passwordSSHA) {
-        this.passwordSSHA = passwordSSHA;
-    }
-
-    public String getUidNumber() {
-        return uidNumber;
-    }
-
-    public void setUidNumber(String uidNumber) {
-        this.uidNumber = uidNumber;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getFullName() {
-        return firstName + " " + lastName;
-    }
-
-    public String getEmailAddress() {
-        return emailAddress;
-    }
-
-    public void setEmailAddress(String emailAddress) {
-        this.emailAddress = emailAddress;
-    }
-
-    public String getGroupId() {
-        return groupId;
-    }
-
-
-    public void setGroupId(String groupId) {
-        this.groupId = groupId;
-    }
-
-    public String getUid() {
-        return uid;
-    }
-
-    public void setUid(String uid) {
-        this.uid = uid;
-    }
-
-    public String getLoginShell() {
-        return loginShell;
-    }
-
-    public void setLoginShell(String loginShell) {
-        this.loginShell = loginShell;
-    }
-
-    @Override
-    public String toString() {
-        return "Person{" +
-                "firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", emailAddress='" + emailAddress + '\'' +
-                ", groupId='" + groupId + '\'' +
-                ", uid='" + uid + '\'' +
-                ", uidNumber='" + uidNumber + '\'' +
-                "} " + super.toString();
-    }
 }

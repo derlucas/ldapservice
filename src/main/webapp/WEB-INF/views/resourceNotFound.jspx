@@ -1,9 +1,0 @@
-<div xmlns:spring="http://www.springframework.org/tags"
-     xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
-    <jsp:output omit-xml-declaration="yes"/>
-
-
-    <h1>404 - nicht gefunden</h1>
-
-
-</div>

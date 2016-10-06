@@ -5,3 +5,5 @@ ldapservice.iml
 .settings/
 target/
 ldap.properties
+node_modules/
+bower_components/

@@ -14,8 +14,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Target({FIELD, ANNOTATION_TYPE})
 @Retention(RUNTIME)
 @Constraint(validatedBy = PasswordComplexValidator.class)
-public @interface PasswordComplex
-{
+public @interface PasswordComplex {
+
     String message() default "{constraints.passwordcomplex}";
 
     Class<?>[] groups() default {};

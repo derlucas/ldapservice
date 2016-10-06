@@ -1,12 +1,17 @@
 package de.ctdo.ldapservice.business;
 
+import de.ctdo.ldapservice.configuration.EmailConfig;
 import de.ctdo.ldapservice.model.Person;
 import de.ctdo.ldapservice.utils.Helper;
 import de.ctdo.ldapservice.utils.SSHA;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ldap.core.*;
+import org.springframework.ldap.core.AttributesMapper;
+import org.springframework.ldap.core.DirContextAdapter;
+import org.springframework.ldap.core.DirContextOperations;
+import org.springframework.ldap.core.DistinguishedName;
+import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.ldap.core.support.AbstractContextMapper;
 import org.springframework.ldap.filter.AndFilter;
 import org.springframework.ldap.filter.EqualsFilter;
@@ -14,29 +19,28 @@ import org.springframework.ldap.filter.WhitespaceWildcardsFilter;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.naming.NamingException;
 import javax.naming.directory.Attributes;
 import java.util.List;
+import java.util.Optional;
 
 @Service
+@Transactional
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@Slf4j
 public class CTDOPersonService implements PersonService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(CTDOPersonService.class);
     private static final String BASE_PEOPLE = "ou=people";
     private final PersonContextMapper personContextMapper = new PersonContextMapper();
 
-    @Autowired
-    private LdapTemplate ldapTemplate;
-
-    @Autowired
-    private MailSender mailSender;
-    @Autowired
-    private SimpleMailMessage simpleMailMessage;
-
+    private final EmailConfig emailConfig;
+    private final LdapTemplate ldapTemplate;
+    private final MailSender mailSender;
 
     @Override
-    public Person create(Person person) {
+    public Optional<Person> create(Person person) {
 
         DistinguishedName dn = new DistinguishedName();
         dn.add("ou", "people");
@@ -52,18 +56,20 @@ public class CTDOPersonService implements PersonService {
 
         sendEmail(person);
 
-        return person;
+        return Optional.of(person);
     }
 
     private void sendEmail(Person person) {
-        SimpleMailMessage msg = new SimpleMailMessage(simpleMailMessage);
+        SimpleMailMessage msg = new SimpleMailMessage();
+        msg.setSubject(emailConfig.getSubject());
+        msg.setFrom(emailConfig.getFrom());
         msg.setText("Added new user " + person);
         msg.setSubject("CTDO LDAP Self Service New user");
 
         try {
             this.mailSender.send(msg);
         } catch (Exception ex) {
-            LOGGER.error("could not send email", ex);
+            log.error("could not send email", ex);
         }
     }
 

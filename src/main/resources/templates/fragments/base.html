@@ -1,0 +1,45 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="common_header(_title,_links)">
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title th:replace="${_title}">CTDO Status</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/img/favicon.ico}">
+    <link rel="stylesheet" th:href="@{/bower_components/bootstrap/dist/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/bower_components/font-awesome/css/font-awesome.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/ldap.css}"/>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <th:block th:replace="${_links} ?: ~{}" />
+</head>
+
+
+<th:block th:fragment="common_scripts">
+    <script th:src="@{/bower_components/jquery/dist/jquery.min.js}"></script>
+    <script th:src="@{/bower_components/bootstrap/dist/js/bootstrap.min.js}"></script>
+</th:block>
+
+
+<th:block th:fragment="top_nav (_cnav_menupage)">
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">LDAP Self Service</a>
+            </div>
+
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li th:class="${_cnav_menupage == 'home'}? 'active'"><a  th:href="@{/}" href="#">Home</a></li>
+                    <li th:class="${_cnav_menupage == 'register'}? 'active'"><a href="#" th:href="@{/register}">Register Account</a></li>
+                    <li th:class="${_cnav_menupage == 'update'}? 'active'"><a href="#">Update Account</a></li>
+                    <li th:class="${_cnav_menupage == 'request'}? 'active'"><a href="#">Request Password</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</th:block>
+
+</html>
