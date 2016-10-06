@@ -15,7 +15,21 @@
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="locations">
             <array>
-                <!-- <value>file:#{systemProperties.ldapregconfigpath}</value> -->
+                <!-- To use the LDAP you have to supply a bind cn and password
+                     these are obviously not in the source code and getting via a
+                     command line parameter into the context.
+                     The file contains:
+                       ldap.userDn=cn=s****e,ou=admins,dc=chaostreff-dortmund,dc=de
+                       ldap.secret=s********e
+
+                     The file is set by a jetty parameter:
+                       -Dldapregconfigpath=/etc/jetty/ldapreg.properties
+
+                     We are using the little detour via that file to avoid having username
+                     and password in the process parameter visible via "ps ax".
+                     The file should be readable by jetty only.
+                     -->
+                <value>file:#{systemProperties.ldapregconfigpath}</value>
                 <value>classpath:ldapservice.properties</value>
             </array>
         </property>
@@ -27,9 +41,7 @@
         <property name="url" value="${ldap.url}"/>
         <property name="base" value="${ldap.base}"/>
         <property name="userDn" value="${ldap.userDn}"/>
-        <!--<property name="userDn" value="#{systemProperties.ldapuser}" />-->
         <property name="password" value="${ldap.secret}"/>
-        <!--<property name="password" value="#{systemProperties.ldappass}" />-->
     </bean>
 
     <bean id="ldapTemplate" class="org.springframework.ldap.core.LdapTemplate">

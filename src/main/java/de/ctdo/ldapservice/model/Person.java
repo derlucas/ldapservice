@@ -139,9 +139,6 @@ public class Person {
                 ", groupId='" + groupId + '\'' +
                 ", uid='" + uid + '\'' +
                 ", uidNumber='" + uidNumber + '\'' +
-                ", passwordSSHA='" + passwordSSHA + '\'' +
-                ", password='" + password + '\'' +
-                ", passwordConfirmation='" + passwordConfirmation + '\'' +
                 "} " + super.toString();
     }
 }
