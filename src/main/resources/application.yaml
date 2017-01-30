@@ -10,6 +10,8 @@ app:
         subject: "CTDO Self Service: New User"
         to: server-admin@chaostreff-dortmund.de
     shells: /bin/bash,/bin/dash,/bin/false,/bin/sh,/bin/tcsh,/bin/zsh,/usr/bin/fish
+    defaultGID: 2000
+    userOU: people
 
 spring:
     mail:

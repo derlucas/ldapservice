@@ -5,7 +5,7 @@
     <title th:replace="${_title}">CTDO Status</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/x-icon" th:href="@{/img/favicon.ico}">
-    <link rel="stylesheet" th:href="@{/bower_components/bootstrap/dist/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
     <link rel="stylesheet" th:href="@{/bower_components/font-awesome/css/font-awesome.min.css}"/>
     <link rel="stylesheet" th:href="@{/css/ldap.css}"/>
     <!--[if lt IE 9]>
@@ -24,9 +24,16 @@
 
 
 <th:block th:fragment="top_nav (_cnav_menupage)">
-    <nav class="navbar navbar-default">
+    <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed"
+                        data-toggle="collapse" data-target="#navbar" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
                 <a class="navbar-brand" href="#">LDAP Self Service</a>
             </div>
 
@@ -34,8 +41,8 @@
                 <ul class="nav navbar-nav">
                     <li th:class="${_cnav_menupage == 'home'}? 'active'"><a  th:href="@{/}" href="#">Home</a></li>
                     <li th:class="${_cnav_menupage == 'register'}? 'active'"><a href="#" th:href="@{/register}">Register Account</a></li>
-                    <li th:class="${_cnav_menupage == 'update'}? 'active'"><a href="#">Update Account</a></li>
-                    <li th:class="${_cnav_menupage == 'request'}? 'active'"><a href="#">Request Password</a></li>
+                    <li th:class="${_cnav_menupage == 'update'}? 'active'"><a href="#" th:href="@{/update}">Update Account</a></li>
+                    <li th:class="${_cnav_menupage == 'request'}? 'active'"><a href="#" th:href="@{/request}">Request Password</a></li>
                 </ul>
             </div>
         </div>

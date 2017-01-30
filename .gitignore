@@ -4,6 +4,6 @@ ldapservice.iml
 .project
 .settings/
 target/
-ldap.properties
+ldap.yaml
 node_modules/
 bower_components/

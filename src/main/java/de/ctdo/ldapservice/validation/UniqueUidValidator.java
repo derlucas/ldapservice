@@ -32,6 +32,10 @@ public class UniqueUidValidator implements ConstraintValidator<UniqueUid, String
 
     @Override
     public boolean isValid(final String value, final ConstraintValidatorContext context) {
-        return (StringUtils.isNotBlank(value) && !words.contains(value) && !dao.isUidTaken(String.valueOf(value)));
+        // we do not validate if the value is blank. user has to use @NotEmpty for checking that constraint
+        if (StringUtils.isBlank(value)) {
+            return true;
+        }
+        return !words.contains(value.toLowerCase()) && !dao.isUidTaken(String.valueOf(value));
     }
 }

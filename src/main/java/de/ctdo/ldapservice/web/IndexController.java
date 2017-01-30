@@ -6,15 +6,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/")
-//@AllArgsConstructor(onConstructor = @__(@Autowired))
-//@Slf4j
 public class IndexController {
-
 
     @GetMapping
     public String handleGet() {
-
         return "index";
     }
 
+    @GetMapping("/update")
+    public String handleTemporarilyUpdate() {
+        return "update";
+    }
+
+    @GetMapping("/request")
+    public String handleTemporarilyReqtestPassword() {
+        return "update";
+    }
 }

@@ -1,5 +1,8 @@
 
 body {
-    padding-top: 20px;
-    padding-bottom: 20px;
+    padding-top: 65px;
+}
+
+.icheckbox_line-grey, .iradio_line-grey {
+    margin-bottom: 10px !important;
 }

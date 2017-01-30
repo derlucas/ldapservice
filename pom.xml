@@ -6,25 +6,24 @@
 
     <groupId>de.ctdo</groupId>
     <artifactId>ldapservice</artifactId>
-    <version>1.0</version>
+    <version>1.1.0</version>
     <packaging>jar</packaging>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
-        <commons.io.version>2.4</commons.io.version>
-        <commons.lang3.version>3.4</commons.lang3.version>
-        <thymeleaf.version>3.0.0.RELEASE</thymeleaf.version>
+        <commons.lang3.version>3.5</commons.lang3.version>
+        <thymeleaf.version>3.0.3.RELEASE</thymeleaf.version>
         <thymeleaf-extras-java8time.version>3.0.0.RELEASE</thymeleaf-extras-java8time.version>
-        <lombok.version>1.16.10</lombok.version>
-        <commons-beanutils.version>1.8.0</commons-beanutils.version>
+        <lombok.version>1.16.12</lombok.version>
+        <commons-beanutils.version>1.9.3</commons-beanutils.version>
         <mail.version>1.4.1</mail.version>
     </properties>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.4.0.RELEASE</version>
+        <version>1.4.4.RELEASE</version>
     </parent>
 
     <dependencies>
@@ -48,12 +47,7 @@
             <version>${commons.lang3.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>${commons.io.version}</version>
-        </dependency>
-
+        <!-- auto generation of Getter/Setter and Constructors -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -61,6 +55,7 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- this dependency is for sending emails -->
         <dependency>
             <groupId>javax.mail</groupId>
             <artifactId>mail</artifactId>
@@ -75,12 +70,13 @@
             <version>RELEASE</version>
         </dependency>
 
+
+        <!-- dependencies for Web View -->
         <dependency>
             <groupId>org.thymeleaf.extras</groupId>
             <artifactId>thymeleaf-extras-java8time</artifactId>
             <version>${thymeleaf-extras-java8time.version}</version>
         </dependency>
-
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -106,19 +102,12 @@
             <version>${commons-beanutils.version}</version>
         </dependency>
 
-
-        <!-- dependencies for unit tests -->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.10</version>
-            <scope>test</scope>
-        </dependency>
-
     </dependencies>
 
     <build>
         <plugins>
+            <!-- this config lets maven build a linux executable file for the project
+                 the file will have a .jar suffix but it's executable! -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
@@ -127,6 +116,7 @@
                 </configuration>
             </plugin>
 
+            <!-- this plugin is for the Web View dependencies via npm and bower -->
             <plugin>
                 <groupId>com.github.eirslett</groupId>
                 <artifactId>frontend-maven-plugin</artifactId>
@@ -169,11 +159,8 @@
                             <arguments>install</arguments>
                         </configuration>
                     </execution>
-
                 </executions>
             </plugin>
         </plugins>
     </build>
-
-    
 </project>

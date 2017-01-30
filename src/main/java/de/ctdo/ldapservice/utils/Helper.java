@@ -5,13 +5,11 @@ import java.util.List;
 public final class Helper {
     private Helper() {}
 
-    public static int getMaxIntInList(List list) {
+    public static int getMaxIntInList(List<String> list) {
         int maxId = 0;
-        for(Object uidS: list) {
-            if( uidS instanceof String) {
-                int uid = Integer.parseInt(uidS.toString());
-                maxId = uid > maxId ? uid : maxId;
-            }
+        for(String uidS: list) {
+            int uid = Integer.parseInt(uidS);
+            maxId = uid > maxId ? uid : maxId;
         }
         return maxId;
     }

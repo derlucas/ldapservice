@@ -10,6 +10,7 @@
 
     <th:block th:replace="~{fragments/base :: top_nav(register)}"/>
 
+    <div th:if="${status ne null}" class="alert alert-info" role="alert" th:text="#{${status}}" ></div>
 
     <form class="form-horizontal" th:object="${person}" method="post">
 
@@ -94,17 +95,17 @@
                     <ul class="list-inline">
                         <li th:each="sh : ${shells}">
                             <input type="radio" th:id="${'sh-'+{sh}}" name="loginShell" th:value="${{sh}}"
-                                   th:checked="${loginShell eq {sh}}"/>
-                            <label th:for="${'sh'+{sh}}" th:text="${sh}">Cinema</label>
+                                   th:checked="${person.loginShell eq sh}"/>
+                            <label th:for="${'sh-'+{sh}}" th:text="${sh}">Cinema</label>
                         </li>
                     </ul>
                 </div>
             </div>
 
 
-            <div class="form-group">
+            <div class="form-group pull-right">
                 <div class="col-sm-3 col-sm-9">
-                    <input type="submit" class="btn btn-default" th:value="#{entity.person.submit}"/>
+                    <input type="submit" class="btn btn-primary btn-default" th:value="#{entity.person.submit}"/>
                 </div>
             </div>
 

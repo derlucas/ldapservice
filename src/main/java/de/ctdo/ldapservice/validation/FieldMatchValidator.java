@@ -38,8 +38,7 @@ class FieldMatchValidator implements ConstraintValidator<FieldMatch, Object> {
             context.disableDefaultConstraintViolation();
             ConstraintValidatorContext.ConstraintViolationBuilder violationBuilder = context.buildConstraintViolationWithTemplate(message);
 
-            violationBuilder.addNode(firstFieldName).addConstraintViolation();
-            violationBuilder.addNode(secondFieldName).addConstraintViolation();
+            violationBuilder.addPropertyNode(firstFieldName).addConstraintViolation();
         }
 
         return isValid;

@@ -10,5 +10,7 @@ import org.springframework.stereotype.Component;
 public class AppConfig {
 
     private String[] shells;
+    private String defaultGID;
+    private String userOU;
 
 }

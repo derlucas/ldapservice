@@ -13,10 +13,10 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Documented
 @Target({FIELD, ANNOTATION_TYPE})
 @Retention(RUNTIME)
-@Constraint(validatedBy = PasswordComplexValidator.class)
-public @interface PasswordComplex {
+@Constraint(validatedBy = PasswordBlacklistValidator.class)
+public @interface PasswordBlacklist {
 
-    String message() default "{constraints.passwordcomplex}";
+    String message() default "{constraints.passwordblacklist}";
 
     Class<?>[] groups() default {};
 
