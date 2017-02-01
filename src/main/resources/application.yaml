@@ -1,23 +1,26 @@
+# copy this file to "application.yaml" beside your jar file and change parameters you need
+# you can delete not needed options (they default to whats here compiled in)
 app:
     ldap:
-        url: ldap://auth2.ctdo.de:389
+        # make a ssh tunnel to your LDAP Server
+        url: ldap://localhost:3389
         base: dc=chaostreff-dortmund,dc=de
         userDn: cn=selfservice,ou=admins,dc=chaostreff-dortmund,dc=de
         password:
 
     email:
-        from: server-admin@chaostreff-dortmund.de
-        subject: "CTDO Self Service: New User"
-        to: server-admin@chaostreff-dortmund.de
+        from: no-reply@example.com
+        subject: "Self Service: New User"
+        to: mail@example.com
     shells: /bin/bash,/bin/dash,/bin/false,/bin/sh,/bin/tcsh,/bin/zsh,/usr/bin/fish
     defaultGID: 2000
     userOU: people
 
 spring:
     mail:
-        host: mail.chaostreff-dortmund.de
-    main:
-        banner: off
+        # make a ssh tunnel to your SMTP Server
+        host: localhost
+        port: 2222
     thymeleaf:
             cache: false
     jackson:
@@ -27,5 +30,3 @@ spring:
     mvc:
         favicon:
             enabled: false
-
-

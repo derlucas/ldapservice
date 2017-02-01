@@ -1,7 +1,6 @@
 package de.ctdo.ldapservice.business;
 
 import de.ctdo.ldapservice.configuration.AppConfig;
-import de.ctdo.ldapservice.configuration.EmailConfig;
 import de.ctdo.ldapservice.model.Person;
 import de.ctdo.ldapservice.utils.Helper;
 import de.ctdo.ldapservice.utils.SSHA;
@@ -14,8 +13,6 @@ import org.springframework.ldap.core.DirContextOperations;
 import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.ldap.core.support.AbstractContextMapper;
 import org.springframework.ldap.support.LdapNameBuilder;
-import org.springframework.mail.MailSender;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -36,9 +33,7 @@ public class PersonServiceImpl implements PersonService {
 
     private final PersonContextMapper personContextMapper = new PersonContextMapper();
     private final AppConfig appConfig;
-    private final EmailConfig emailConfig;
     private final LdapTemplate ldapTemplate;
-    private final MailSender mailSender;
 
     @Override
     public Optional<Person> create(Person person) {
@@ -55,24 +50,7 @@ public class PersonServiceImpl implements PersonService {
         mapToContext(person, context);
         ldapTemplate.bind(context);
 
-        sendEmail(person);
-
         return Optional.of(person);
-    }
-
-    private void sendEmail(Person person) {
-        SimpleMailMessage msg = new SimpleMailMessage();
-        msg.setSubject(emailConfig.getSubject());
-        msg.setFrom(emailConfig.getFrom());
-        msg.setText("Added new user " + person);
-        msg.setSubject("CTDO LDAP Self Service New user");
-
-        try {
-            this.mailSender.send(msg);
-        }
-        catch (Exception ex) {
-            log.error("could not send email", ex);
-        }
     }
 
     @Override

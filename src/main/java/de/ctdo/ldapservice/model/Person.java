@@ -5,6 +5,7 @@ import de.ctdo.ldapservice.validation.PasswordBlacklist;
 import de.ctdo.ldapservice.validation.UniqueEmail;
 import de.ctdo.ldapservice.validation.UniqueUid;
 import lombok.Data;
+import lombok.ToString;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -12,7 +13,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Data
-//@ToString(exclude = {"password", "passwordConfirmation", "passwordSSHA"})
+@ToString(exclude = {"password", "passwordConfirmation", "passwordSSHA"})
 @FieldMatch(first = "password", second = "passwordConfirmation", message = "{constraints.fieldmatch.password}")
 public class Person {
 
