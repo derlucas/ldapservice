@@ -82,7 +82,7 @@ public class PersonServiceImpl implements PersonService {
             (AttributesMapper<String>) attributes -> attributes.get("uidNumber").get().toString()
         );
 
-        return Helper.getMaxIntInList(list);
+        return Helper.getMaxIntInList(list) + 1;
     }
 
     private void mapToContext(Person person, DirContextOperations context) {
