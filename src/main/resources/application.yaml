@@ -1,13 +1,6 @@
 # copy this file to "application.yaml" beside your jar file and change parameters you need
 # you can delete not needed options (they default to whats here compiled in)
 app:
-    ldap:
-        # make a ssh tunnel to your LDAP Server
-        url: ldap://localhost:3389
-        base: dc=chaostreff-dortmund,dc=de
-        userDn: cn=selfservice,ou=admins,dc=chaostreff-dortmund,dc=de
-        password:
-
     email:
         from: no-reply@example.com
         subject: "Self Service: New User"
@@ -30,3 +23,9 @@ spring:
     mvc:
         favicon:
             enabled: false
+    ldap:
+        # make a ssh tunnel to your LDAP Server
+        urls: ldap://localhost:3389
+        base: dc=chaostreff-dortmund,dc=de
+        username: cn=selfservice,ou=admins,dc=chaostreff-dortmund,dc=de
+        password:

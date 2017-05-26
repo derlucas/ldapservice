@@ -32,13 +32,13 @@ public class LDAPTests {
     @Test
     public void testIsUIDTaken() {
         boolean result = dao.isUidTaken("lucas");
-        assertTrue("shoud be taken", result);
+        assertTrue("should be taken", result);
     }
 
     @Test
     public void testIsUIDTakenFree() {
         boolean result = dao.isUidTaken("lucas2222");
-        assertFalse("shoud not be taken", result);
+        assertFalse("should not be taken", result);
     }
 
 }
